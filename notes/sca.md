@@ -16,7 +16,7 @@ secret key is leaked, though, anybody can decrypt your web traffic.
 Side-channel attacks do not use any form of binary exploitation to accomplish this.
 These attacks do not directly try and read
 out information from a program (like we might do with a format string vulnerability). Instead they try and obtain information
-\textit{related} to the data they want. This is an odd concept, so we
+\textit{related} to the data they want [1,2]. This is an odd concept, so we
 begin with an example.
 
 The classic analogy is a poker face. When you play poker, you do not know the
@@ -43,7 +43,7 @@ to attack software, notably caches. We will not discuss these here.
 ### An example attack
 
 An *timing* side-channel attack assumes that the time that is consumed to perform a task
-leaks information about the data that task is being performed on. Consider a simple bit of code that
+leaks information about the data that task is being performed on [1,2]. Consider a simple bit of code that
 checks if a password is correct:
 
 ```
@@ -96,7 +96,7 @@ another real-world example of a vulnerability, we look at a problem in GnuPG 1.4
 algorithm. RSA is a cryptographic algorithm that requires performing exponentiation on a modular space. An efficient
 algorithm to perform this operation is the square and multiply algorithm, shown below in a very simplified manner. We
 can see that an additional two lines of code is executed, depending on the value of a secret. This secret is actually
-a bit of the private encryption key.
+a bit of the private encryption key [3].
 
 
 ```
@@ -121,7 +121,9 @@ probing the processor's cache. This attack, called Flush & Reload, is a great in
 Regardless of how the attack is carried out, the code is still made vulnerable by non-constant time execution, that *depends on a secret value*.
 For a discussion on writing code that securely operates on secret data, read this article.
 
-### References
+### References and Further Reading
+[1] [A discussion on constant time code] (https://www.bearssl.org/constanttime.html)
+[2] [Constant time code, and what to consider when writing it] (https://www.chosenplaintext.ca/articles/beginners-guide-constant-time-cryptography.html)
+[3] [Flush+Reload, and attacking RSA with it] (eprint.iacr.org/2013/448.pdf)
+[4] [A very brief into to a different type of side-channel, power consumption of embedded devices] (https://www.rambus.com/blogs/an-introduction-to-side-channel-attacks/)
 
-Flush+Reload: eprint.iacr.org/2013/448.pdf
-chosenplaintext.ca/articles/beginners-guide-constant-time-cryptography.html
