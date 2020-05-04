@@ -119,14 +119,14 @@ long exponent(int b, int e, int m) {
 It turns out that this cannot really be exploited by strictly analyzing execution time, the attack is more complex and requires
 probing the processor's cache. This attack, called Flush & Reload, is a great introduction to the world of hardware side-channel attacks.
 Regardless of how the attack is carried out, the code is still made vulnerable by non-constant time execution, that *depends on a secret value*.
-For a discussion on writing code that securely operates on secret data, read this article.
+For a discussion on writing code that securely operates on secret data, read [2].
 
 ### References and Further Reading
-[1] [A discussion on constant time code] (https://www.bearssl.org/constanttime.html)
+[1] [A discussion on constant time code](https://www.bearssl.org/constanttime.html)
 
-[2] [Constant time code, and what to consider when writing it] (https://www.chosenplaintext.ca/articles/beginners-guide-constant-time-cryptography.html)
+[2] [Constant time code, and what to consider when writing it](https://www.chosenplaintext.ca/articles/beginners-guide-constant-time-cryptography.html)
 
-[3] [Flush+Reload, and attacking RSA with it] (eprint.iacr.org/2013/448.pdf)
+[3] [Flush+Reload, and attacking RSA with it](eprint.iacr.org/2013/448.pdf)
 
-[4] [A very brief into to a different type of side-channel, power consumption of embedded devices] (https://www.rambus.com/blogs/an-introduction-to-side-channel-attacks/)
+[4] [A very brief into to a different type of side-channel, power consumption of embedded devices](https://www.rambus.com/blogs/an-introduction-to-side-channel-attacks/)
 
