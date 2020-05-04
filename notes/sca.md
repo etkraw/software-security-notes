@@ -88,7 +88,7 @@ search, we would evaluate every possible password. For a 16 character alphanumer
 up to 36^16 = 7.96 * 10^24 possible passwords. With our approach, we brute force each character individually, cutting
 down the maximum number of tries to 36 * 16 = 576. That is a lot smaller, and we will take seconds, not years, to run.
 
-###Constant-time code
+### Constant-time code
 
 The password checker example given above may seem a little contrived, and any good password checker won't behave like this.
 To provide
