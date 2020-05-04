@@ -1,5 +1,5 @@
-#Timing Side-Channels
-##Author: Edward Krawczyk
+# Timing Side-Channels
+## Author: Edward Krawczyk
 
 ### Side-Channels
 
