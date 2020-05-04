@@ -31,7 +31,7 @@ that.
 Reading an opponent's face is a side-channel attack. Instead of directly
 determining what cards they have, you determine information *about* those
 cards: whether they form a good or bad hand. We call the medium used
-to obtain this information a \textit{side-channel}. Here, the face is a
+to obtain this information a side-channel. Here, the face is a
 side-channel. Formally, a side-channel leakage is an unintended source of information *about* some
 secret. This secret may be a password, encryption key, or PIN. The medium that
 the information is leaked through is the side-channel
@@ -123,7 +123,10 @@ For a discussion on writing code that securely operates on secret data, read thi
 
 ### References and Further Reading
 [1] [A discussion on constant time code] (https://www.bearssl.org/constanttime.html)
+
 [2] [Constant time code, and what to consider when writing it] (https://www.chosenplaintext.ca/articles/beginners-guide-constant-time-cryptography.html)
+
 [3] [Flush+Reload, and attacking RSA with it] (eprint.iacr.org/2013/448.pdf)
+
 [4] [A very brief into to a different type of side-channel, power consumption of embedded devices] (https://www.rambus.com/blogs/an-introduction-to-side-channel-attacks/)
 
