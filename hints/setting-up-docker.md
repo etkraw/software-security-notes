@@ -41,3 +41,5 @@ it works. Once docker is installed, follow these steps:
    `echo 0 > /proc/sys/kernel/randomize_va_space`
 
 6. use `wget` to get a binary to work on
+
+7. setup corefiles `echo "core.%p" > /proc/sys/kernel/core_pattern`
