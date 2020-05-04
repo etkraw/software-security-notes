@@ -91,39 +91,36 @@ down the maximum number of tries to 36 * 16 = 576. That is a lot smaller, and we
 ###Constant-time code
 
 The password checker example given above may seem a little contrived, but actually isn't uncommon. To provide
-another real-world example of a vulnerability, we look at code from ..
+another real-world example of a vulnerability, we look at a problem in GnuPG 1.4.13's implementation of the RSA
+algorithm. RSA is a cryptographic algorithm that requires performing exponentiation on a modular space. An efficient
+algorithm to perform this operation is the square and multiply algorithm, shown below in a very simplified manner. We
+can see that an additional two lines of code is executed, depending on the value of a secret. This secret is actually
+a bit of the private encryption key.
 
 
-flush and reload.
+```
+long exponent(int b, int e, int m) {
+	long x = 1;
+	for (long j = e - 1; j >= 0; j--) {
+		x = x*x;
+		x = x % m;
+		...
+		if (super_secret_bit_j == 1) {
+			x = x*b;
+			x = x % m;
+		}
+		...
+	}
+	return x;
+}
+```
 
-was actually exploited using cache...
+It turns out that this cannot really be exploited by strictly analyzing execution time, the attack is more complex and requires
+probing the processor's cache. This attack, called Flush & Reload, is a great introduction to the world of hardware side-channel attacks.
+Regardless of how the attack is carried out, the code is still made vulnerable by non-constant time execution, that *depends on a secret value*.
+For a discussion on writing code that securely operates on secret data, read this article.
 
-Constant-time code.
+### References
 
-The implementations of the RSA crypto algorithm, modular exponentiation
-data-dependent timing. secret key determines time it takes
- (anyone taken ECE/CS 4802?)
-
-
-If you tried to look at them, you
-likely would be kicked out of the game, or beat up. But, what if you didnt
-
-What about other side-channels?
-
-Another commonly exploited side-channel on general purpose computing systems (servers,
-laptops, etc.) is the processor's hardware cache.
-
-How do we prevent them?
-
-Are there other side-channels?
-
-Yes, many. Device power usage, a program's cache access patterns, behavior of
-speculative execution engines, and even your PC's cooling fan can be
-exploited by a side channel attack. Of course, as side-channels become more
-esoteric, the attacks become much more complex (and eventually more of a
-novelty than a threat). BUT that does not mean they should be ignored. Side-
-channel attacks, while difficult to find and exploit, are some of the most
-severe and dangerous. Why? Because when they exploit hardware (not software)
-the vulnerability cannot be patched.
-
-## References
+Flush+Reload: eprint.iacr.org/2013/448.pdf
+chosenplaintext.ca/articles/beginners-guide-constant-time-cryptography.html
