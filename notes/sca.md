@@ -90,7 +90,8 @@ down the maximum number of tries to 36 * 16 = 576. That is a lot smaller, and we
 
 ###Constant-time code
 
-The password checker example given above may seem a little contrived, but actually isn't uncommon. To provide
+The password checker example given above may seem a little contrived, and any good password checker won't behave like this.
+To provide
 another real-world example of a vulnerability, we look at a problem in GnuPG 1.4.13's implementation of the RSA
 algorithm. RSA is a cryptographic algorithm that requires performing exponentiation on a modular space. An efficient
 algorithm to perform this operation is the square and multiply algorithm, shown below in a very simplified manner. We
