@@ -1,4 +1,4 @@
-# Timing Side-Channels
+# Side-Channel Attacks
 ## Author: Edward Krawczyk
 
 ### Side-Channels
@@ -38,7 +38,7 @@ the information is leaked through is the side-channel
 
 Now, we will examine side-channel attacks on software, in the case where
 the side-channel is time. There are other side-channels that can be exploited
-to attack software, notably caches. We will not discuss these here. 
+to attack software, notably caches. 
 
 ### An example attack
 
@@ -123,11 +123,31 @@ For a discussion on writing code that securely operates on secret data, read [2]
 
 ### Hardware Side-Channels
 
-Flush+Reload is a great introduction into the world of *hardware* side-channel attacks. These are attacks that use information about physical system
-hardware (such as processor cache), and do not focus on the software as much.
+Flush+Reload is a great introduction into the world of *hardware* side-channel attacks. These are attacks that use information gained from physical system
+hardware, such as processor cache.
 Flush+Reload and other so-called cache attacks time how long it takes to access a piece of data, to determine whether that data is in the processor's
-cache, or memory. Recall that data held in cache will be accessed *much much* faster than anything in memory. If an OS feature such as page de-duplication
-is enabled on a system ... dedup, cache timing...
+cache, or system memory. Recall that data held in cache will be accessed **much** faster than anything in memory. So, if it takes a very short time to
+access some data, we can infer that data is held in cache. Alternately, a long access time means that data was not present in cache, so we had a cache miss
+and had to load the data in from the slow memory or disk.
+
+Flush+Reload depends on two important system features:
+
+1. Some level of processor cache is shared between programs running on a system. This is always true for current intel processor designs.
+
+2. The OS has page de-duplication enabled. This means that redundant pages in memory are consolidated. So, if two programs are both using some function from libc,
+page de-duplication will mean both programs access the same memory page that contains this code. The idea here is that this cuts down on system memory usage, as otherwise
+both programs would each have an independent copy of the same memory page. Note that this feature is now often disabled by default on OSs.
+
+You may see where we are going with this. In order to determine whether a victim process is using a piece of information, we time how long it takes for us to access that
+information. In this context, the information is a memory page with a portion of code from GnuPG. In order to more accurately time this access, the attacker process first
+uses the `clflush` instruction to clear the memory line of interest from cache. Then, we try and access this memory line. If the victim process has used this memory line since
+we cleared it from cache, we will have a very fast access time. This is because the victim's access will have places the memory line back in cache. If the victim did not
+access the memory line, we will have to load it in from memory, and will observe a slow access time.
+Coupling this attack with a secret-dependent code condition (see the `exponent()` function), we are able recover secret keys. To see how a full key recovery is performed,
+see the paper, [3]. 
+
+It is important to note that while this attack is mitigated by disabling page de-duplication, many other hardware attacks are ever-present. This is because hardware cannot be
+patched to accommodate a security concern. Remember Meltdown and Spectre? [6]
 
 ### References and Further Reading
 [1] [A discussion on constant time code](https://www.bearssl.org/constanttime.html)
@@ -139,3 +159,5 @@ is enabled on a system ... dedup, cache timing...
 [4] [A very brief into to a different type of side-channel, power consumption of embedded devices](https://www.rambus.com/blogs/an-introduction-to-side-channel-attacks/)
 
 [5] [Side-channel attacks developed in the ECE dept. at WPI](http://vernam.wpi.edu/publications/)
+
+[6] [Meltdown and Spectre](https://meltdownattack.com/)
