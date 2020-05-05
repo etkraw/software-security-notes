@@ -117,9 +117,17 @@ long exponent(int b, int e, int m) {
 ```
 
 It turns out that this cannot really be exploited by strictly analyzing execution time, the attack is more complex and requires
-probing the processor's cache. This attack, called Flush & Reload, is a great introduction to the world of hardware side-channel attacks.
+probing the processor's cache. This attack, called Flush+Reload, will be mentioned in the next section.
 Regardless of how the attack is carried out, the code is still made vulnerable by non-constant time execution, that *depends on a secret value*.
 For a discussion on writing code that securely operates on secret data, read [2].
+
+### Hardware Side-Channels
+
+Flush+Reload is a great introduction into the world of *hardware* side-channel attacks. These are attacks that use information about physical system
+hardware (such as processor cache), and do not focus on the software as much.
+Flush+Reload and other so-called cache attacks time how long it takes to access a piece of data, to determine whether that data is in the processor's
+cache, or memory. Recall that data held in cache will be accessed *much much* faster than anything in memory. If an OS feature such as page de-duplication
+is enabled on a system ... dedup, cache timing...
 
 ### References and Further Reading
 [1] [A discussion on constant time code](https://www.bearssl.org/constanttime.html)
@@ -130,3 +138,4 @@ For a discussion on writing code that securely operates on secret data, read [2]
 
 [4] [A very brief into to a different type of side-channel, power consumption of embedded devices](https://www.rambus.com/blogs/an-introduction-to-side-channel-attacks/)
 
+[5] [Side-channel attacks developed in the ECE dept. at WPI](http://vernam.wpi.edu/publications/)
